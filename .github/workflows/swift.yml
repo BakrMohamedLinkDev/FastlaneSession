@@ -1,7 +1,7 @@
 # This workflow will build a Swift project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-swift
 
-name: Swift
+name: iOS Fastlane
 
 on:
   push:
@@ -24,6 +24,7 @@ jobs:
       - name: Install Dependencies
         run: |
           ls -la
+          cd FastlaneSession/
           gem install fastlane
           bundle install # if you are using a Gemfile
 
