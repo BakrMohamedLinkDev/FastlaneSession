@@ -1,0 +1,101 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Release"
+  lane :custom_lane do
+    app_provisioning
+  end
+
+  desc "Release"
+  lane :app_provisioning do
+    match(
+    git_private_key: ENV['MATCH_GIT_BEARER_AUTHORIZATION'],
+    type: ENV['MATCH_TYPE'],
+    username: ENV['APP_USERNAME'],
+    team_id: ENV['APP_TEAM_ID'],
+    git_url: ENV['MATCH_CERT_REPO'],
+    git_branch: ENV['MATCH_CERT_REPO_BRANCH'],
+    app_identifier: ENV['APP_IDENTIFIER'],
+    readonly: true,
+    keychain_name: ENV['MATCH_KEY_CHAIN_NAME'],
+    keychain_password: ENV['MATCH_KEY_CHAIN_PASSWORD']
+  )
+  end
+
+lane :build_and_archive do 
+    sdk_version = `xcodebuild -showsdks`.scan(/iOS (\d+\.\d+)/).map(&:first).sort.last
+    UI.message("📱 Using SDK: iphoneos#{sdk_version}")
+
+    clean_build_artifacts
+    clear_derived_data
+
+    update_code_signing_settings(
+      path: ENV['E_APP_PROJECT'],
+      use_automatic_signing: false,
+      team_id: ENV['APP_TEAM_ID'],
+      profile_name: ENV['APP_PROVISIONING_PROFILE'],
+      code_sign_identity: "iPhone Distribution: LINK Development"
+    )
+
+    build_app(
+      project: ENV['E_APP_PROJECT'],
+      scheme: ENV['APP_SCHEME'],
+      export_method: ENV['MATCH_TYPE'],
+      clean: true,
+      output_directory: ENV['APP_BUILD_OUTPUT_PATH'],
+      build_path: ENV['APP_BUILD_OUTPUT_PATH'],
+      output_name: ENV['APP_BUILD_OUTPUT_NAME'],
+      sdk: "iphoneos#{sdk_version}",
+      destination: "generic/platform=iOS",
+      xcargs: "-skipMacroValidation -allowProvisioningUpdates",
+      export_options: {
+        provisioningProfiles: {
+          ENV['APP_IDENTIFIER'] => ENV['APP_PROVISIONING_PROFILE']
+        }
+      }
+    )
+  end
+
+  # Private lane for Firebase distribution
+  lane :distribute_to_firebase do |options|
+    dist_code = options[:distribution]
+
+    distribute_group = case dist_code
+                       when 0 then "internal"
+                       when 1 then "external"
+                       when 2 then "Internal, external"
+                       else "Internal, external"
+                       end
+
+    release_notes_path = File.join(Dir.pwd, "release-notes.txt")
+
+    unless File.exist?(release_notes_path)
+      UI.important("⚠️ Release notes file not found at: #{release_notes_path}")
+      release_notes_path = nil
+    end                   
+
+    firebase_app_distribution(
+      app: ENV['FIREBASE_APP_ID'],
+      firebase_cli_token: ENV['FIREBASE_TOKEN'],
+      groups: distribute_group,
+      release_notes_file: release_notes_path,
+      ipa_path: File.join(ENV['APP_BUILD_OUTPUT_PATH'], ENV['APP_BUILD_OUTPUT_NAME'])
+    )
+  end
+
+end
