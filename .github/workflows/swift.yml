@@ -29,6 +29,7 @@ jobs:
           gem install fastlane
           ruby -v
           bundle install --retry=3 --jobs=4
+          fastlane action setup_ci
 
       - name: Install App Provisioning
         run: |
