@@ -36,12 +36,12 @@ jobs:
           cd FastlaneSession/
           bundle exec fastlane ios app_provisioning
 
-      # - name: Install Dependencies
-      #   run: |
-      #     gem install fastlane
-      #     bundle install # if you are using a Gemfile
+      - name: Install Dependencies
+        run: |
+          gem install fastlane
+          bundle install # if you are using a Gemfile
 
-      # - name: Install Dependencies
-      #   run: |
-      #     gem install fastlane
-      #     bundle install # if you are using a Gemfile
+      - name: Install Dependencies
+        run: |
+          gem install fastlane
+          bundle install # if you are using a Gemfile
