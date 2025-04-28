@@ -24,16 +24,15 @@ jobs:
       - name: Install Dependencies
         run: |
           brew install libxml2 libxslt
-          ls -la
           cd FastlaneSession/
           gem install bundler
           gem install fastlane
           ruby -v
-          bundle config build.nokogiri --use-system-libraries
           bundle install --retry=3 --jobs=4
 
       - name: Install App Provisioning
         run: |
+          cd FastlaneSession/
           bundle exec fastlane ios app_provisioning
 
       # - name: Install Dependencies
