@@ -15,6 +15,7 @@ jobs:
     steps:
       - name: Install Dependencies
         run: |
+          ls -la
           gem install fastlane
           bundle install # if you are using a Gemfile
 
