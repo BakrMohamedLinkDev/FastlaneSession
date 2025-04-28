@@ -30,6 +30,7 @@ jobs:
           ruby -v
           bundle install --retry=3 --jobs=4
           fastlane run setup_ci force:true
+          bundle exec fastlane ios create_new_keychain
 
       - name: Install App Provisioning
         run: |

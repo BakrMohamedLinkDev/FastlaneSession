@@ -3,6 +3,18 @@ default_platform(:ios)
 
 platform :ios do
 
+  lane :create_new_keychain do
+    create_keychain(
+      name: ENV['MATCH_KEY_CHAIN_NAME'],
+      password: ENV['MATCH_KEY_CHAIN_PASSWORD'],
+      default_keychain: true,
+      unlock: true,
+      timeout: 3600,
+      lock_when_sleeps: false,
+      add_to_search_list: true               
+    )
+  end
+
   lane :app_provisioning do
     match(
       git_private_key: ENV['MATCH_GIT_BEARER_AUTHORIZATION'],
@@ -13,7 +25,8 @@ platform :ios do
       git_branch: ENV['MATCH_CERT_REPO_BRANCH'],
       app_identifier: ENV['APP_IDENTIFIER'],
       readonly: true,
-      keychain_name: ENV['MATCH_KEY_CHAIN_NAME']
+      keychain_name: ENV['MATCH_KEY_CHAIN_NAME'],
+      keychain_password: ENV['MATCH_KEY_CHAIN_PASSWORD']
      )
   end 
 
