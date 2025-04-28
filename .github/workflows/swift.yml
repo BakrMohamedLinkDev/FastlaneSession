@@ -33,6 +33,7 @@ jobs:
       - name: Install App Provisioning
         run: |
           ls -la
+          cd FastlaneSession/
           bundle exec fastlane ios app_provisioning
 
       # - name: Install Dependencies
