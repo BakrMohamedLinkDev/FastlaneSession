@@ -13,9 +13,8 @@ platform :ios do
       git_branch: ENV['MATCH_CERT_REPO_BRANCH'],
       app_identifier: ENV['APP_IDENTIFIER'],
       readonly: true,
-      keychain_name: ENV['MATCH_KEY_CHAIN_NAME'],
-      keychain_password: ENV['MATCH_KEY_CHAIN_PASSWORD']
-    )
+      keychain_name: ENV['MATCH_KEY_CHAIN_NAME']
+     )
   end 
 
 
