@@ -1,10 +1,13 @@
 source "https://rubygems.org"
 
 # Core dependencies
-gem 'nokogiri', '~> 1.9'
-gem "fastlane"          # iOS automation (check fastlane docs for latest)
-gem "dotenv"            # Environment variables
+gem "fastlane"
+gem "dotenv"                # Environment variables
 
-#Install Plugins
+# Install Plugins
 plugins_path = File.join(File.dirname(__FILE__), 'fastlane', 'Pluginfile')
-eval_gemfile(plugins_path) if File.exist?(plugins_path)
+
+# Check if the Pluginfile exists before trying to evaluate it
+if File.exist?(plugins_path)
+  eval_gemfile(plugins_path) 
+end
