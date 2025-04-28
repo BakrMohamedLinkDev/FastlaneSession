@@ -28,7 +28,7 @@ jobs:
           gem install fastlane
           bundle install # if you are using a Gemfile
 
-      - name: Install Dependencies
+      - name: Install App Provisioning
         run: |
           bundle exec fastlane ios app_provisioning
 
