@@ -1,6 +1,7 @@
 source "https://rubygems.org"
 
 # Core dependencies
+gem 'nokogiri', '~> 1.9'
 gem "fastlane"          # iOS automation (check fastlane docs for latest)
 gem "dotenv"            # Environment variables
 

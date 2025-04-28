@@ -64,4 +64,3 @@ fastlane/test_output
 FastlaneSession/fastlane/dist/*
 FastlaneSession/fastlane/report.xml
 FastlaneSession/fastlane/README.md
-FastlaneSession/Gemfile.lock
