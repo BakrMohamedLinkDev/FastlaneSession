@@ -1,0 +1,2 @@
+# firebase distribution
+gem 'fastlane-plugin-firebase_app_distribution'
