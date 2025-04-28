@@ -36,12 +36,10 @@ jobs:
           cd FastlaneSession/
           bundle exec fastlane ios app_provisioning
 
-      - name: Install Dependencies
+      - name: Build and Archive
         run: |
-          gem install fastlane
-          bundle install # if you are using a Gemfile
+          bundle exec fastlane ios build_and_archive
 
-      - name: Install Dependencies
+      - name: Ship to Firebase
         run: |
-          gem install fastlane
-          bundle install # if you are using a Gemfile
+          bundle exec fastlane ios distribute_to_firebase
