@@ -38,8 +38,10 @@ jobs:
 
       - name: Build and Archive
         run: |
+          cd FastlaneSession/
           bundle exec fastlane ios build_and_archive
 
       - name: Ship to Firebase
         run: |
+          cd FastlaneSession/
           bundle exec fastlane ios distribute_to_firebase
